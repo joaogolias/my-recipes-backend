@@ -1,8 +1,11 @@
 import express, { Response } from "express";
+<<<<<<< HEAD
 import { singupEndpoint } from "./presentation/endpoints/singupEndpoint";
 import dotenv from "dotenv";
 
 dotenv.config();
+=======
+>>>>>>> added base error, base database and base endpoint
 
 const app = express();
 

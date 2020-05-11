@@ -60,7 +60,6 @@ export abstract class BaseDatabase {
     try {
       return await callback();
     } catch (err) {
-      console.log(err);
       this.handleError(err);
     }
   }
