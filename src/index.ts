@@ -1,6 +1,7 @@
 import express, { Response } from "express";
 import { singupEndpoint } from "./presentation/endpoints/singupEndpoint";
 import dotenv from "dotenv";
+import { loginEndpoint } from "./presentation/endpoints/loginEndpoint";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.get("/", (_, res: Response) => {
 });
 
 app.post("/signup", singupEndpoint);
+app.post("/login", loginEndpoint);
 
 export default app;
 

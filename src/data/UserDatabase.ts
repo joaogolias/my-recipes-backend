@@ -5,7 +5,7 @@ import { UserGateway } from "../business/gateway/User";
 export class UserDatabase extends BaseDatabase implements UserGateway {
   protected mainTableName: string = "user";
 
-  private toUserEntity(dbModel: any): User {
+  private toUserEntity(dbModel?: any): User | undefined {
     return new User({
       id: dbModel.id,
       nickname: dbModel.nickname,
@@ -29,11 +29,12 @@ export class UserDatabase extends BaseDatabase implements UserGateway {
     });
   }
 
-  public async getUserByNickname(nickname: string): Promise<User> {
+  public async getUserByNickname(nickname: string): Promise<User | undefined> {
     return this.performQuery(async () => {
       const result = await this.getConnection()
         .select("*")
-        .from(this.mainTableName);
+        .from(this.mainTableName)
+        .where({ nickname });
       return this.toUserEntity(result[0]);
     });
   }

@@ -8,14 +8,17 @@ export class RefreshTokenDatabase extends BaseDatabase
   implements RefreshTokenGateway {
   protected mainTableName: string = "refresh_token";
 
-  private toEntity(dbModel: any): RefreshTokenData {
-    return {
-      userId: dbModel.user_id,
-      token: dbModel.token,
-      isActive: this.tinyIntToBoolean(dbModel.is_active),
-      device: dbModel.device,
-      nickname: dbModel.nickname,
-    };
+  private toEntity(dbModel?: any): RefreshTokenData | undefined {
+    console.log("dbModel: ", dbModel);
+    return (
+      dbModel && {
+        userId: dbModel.user_id,
+        token: dbModel.token,
+        isActive: this.tinyIntToBoolean(dbModel.is_active),
+        device: dbModel.device,
+        nickname: dbModel.nickname,
+      }
+    );
   }
   public async createToken(data: RefreshTokenData): Promise<void> {
     await this.performQuery(async () => {
@@ -35,6 +38,7 @@ export class RefreshTokenDatabase extends BaseDatabase
     nickname: string,
     device?: string
   ): Promise<RefreshTokenData[]> {
+    console.log("nickname: ", nickname);
     return this.performQuery(async () => {
       let result = [];
       if (device) {
@@ -53,7 +57,10 @@ export class RefreshTokenDatabase extends BaseDatabase
             nickname,
           });
       }
-      return result.map(this.toEntity);
+      return result.map((item) => {
+        console.log(item);
+        return this.toEntity(item);
+      });
     });
   }
 }
