@@ -23,13 +23,19 @@ export abstract class BaseDatabase {
   }
 
   protected booleanToTinyInt(value: boolean): number {
-    return value ? 1 : 0
+    return value ? 1 : 0;
   }
 
   protected tinyIntToBoolean(value: number): boolean {
-    return !!value
+    return !!value;
   }
 
+  public static async destroyConnection(): Promise<void> {
+    if (BaseDatabase.connection) {
+      await BaseDatabase.connection.destroy();
+      BaseDatabase.connection = null;
+    }
+  }
 
   protected handleError = (err: any) => {
     console.log(err);
@@ -55,13 +61,6 @@ export abstract class BaseDatabase {
       return await callback();
     } catch (err) {
       this.handleError(err);
-    }
-  }
-
-  public static async destroyConnection(): Promise<void> {
-    if (BaseDatabase.connection) {
-      await BaseDatabase.connection.destroy();
-      BaseDatabase.connection = null;
     }
   }
 }
