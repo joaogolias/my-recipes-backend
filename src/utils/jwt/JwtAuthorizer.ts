@@ -11,7 +11,6 @@ export class JwtAuthorizer implements AuthenticationTokenGateway {
     payload: AuthenticationUserData,
     expiresIn: number = JwtAuthorizer.DEFAULT_EXPIRES_IN
   ): string {
-    console.log("oi");
     return jwt.sign(payload, process.env.JWT_KEY!, {
       expiresIn,
     });

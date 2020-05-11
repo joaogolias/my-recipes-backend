@@ -33,7 +33,6 @@ export class SignupUC extends AuthenticatorUC<SignupUCInput, SingupUCOutput> {
 
     await this.userGateway.createUser(user);
 
-    console.log("user: ", user);
     await this.authenticate(user.id, user.nickname, input.device);
 
     return {

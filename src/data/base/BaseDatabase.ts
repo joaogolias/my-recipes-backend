@@ -38,7 +38,6 @@ export abstract class BaseDatabase {
   }
 
   protected handleError = (err: any) => {
-    console.log(err);
     const message = err.message.toLowerCase();
 
     if (message.indexOf("syntax") !== -1) {
@@ -60,7 +59,6 @@ export abstract class BaseDatabase {
     try {
       return await callback();
     } catch (err) {
-      console.log(err);
       this.handleError(err);
     }
   }

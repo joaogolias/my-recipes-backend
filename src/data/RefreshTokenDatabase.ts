@@ -19,7 +19,6 @@ export class RefreshTokenDatabase extends BaseDatabase
   }
   public async createToken(data: RefreshTokenData): Promise<void> {
     await this.performQuery(async () => {
-      console.log("here");
       await this.getConnection()
         .insert({
           token: data.token,
@@ -29,7 +28,6 @@ export class RefreshTokenDatabase extends BaseDatabase
           is_active: this.booleanToTinyInt(data.isActive),
         })
         .into(this.mainTableName);
-      console.log("added");
     });
   }
 

@@ -28,14 +28,6 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
     nickname: string,
     device?: string
   ): Promise<void> {
-    console.log(
-      "AuthenticatorUC.REFRESH_TOKEN_EXPIRES: ",
-      AuthenticatorUC.REFRESH_TOKEN_EXPIRES()
-    );
-    console.log(
-      "AuthenticatorUC.ACCESS_TOKEN_EXPIRES: ",
-      AuthenticatorUC.ACCESS_TOKEN_EXPIRES()
-    );
     const refreshToken = await this.refreshTokenGateway.getTokenByNicknameAndDevice(
       nickname,
       device
@@ -46,7 +38,6 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
         `${BusinessErrorMessage.MISSING_INPUT}. Device is missing`
       );
     }
-    console.log("refreshToken: ", refreshToken);
     if (!refreshToken[0]) {
       const newRefreshToken = this.authenticationTokenGateway.encode(
         { id: userId },
@@ -83,7 +74,6 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
     nickname: string,
     device?: string
   ): Promise<void> {
-    console.log("aaaa");
     await this.generateRefreshToken(id, nickname, device);
     this.generateAccessToken(id, nickname);
   }
