@@ -16,8 +16,8 @@ export class UserDatabase extends BaseDatabase implements UserGateway {
   }
 
   public async createUser(user: User): Promise<any> {
-    this.performQuery(async () => {
-      this.getConnection()
+    await this.performQuery(async () => {
+      await this.getConnection()
         .insert({
           id: user.id,
           nickname: user.nickname,

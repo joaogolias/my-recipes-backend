@@ -10,7 +10,7 @@ export class RefreshTokenDatabase extends BaseDatabase
 
   private toEntity(dbModel: any): RefreshTokenData {
     return {
-      id: dbModel.id,
+      userId: dbModel.user_id,
       token: dbModel.token,
       isActive: this.tinyIntToBoolean(dbModel.is_active),
       device: dbModel.device,
@@ -18,13 +18,18 @@ export class RefreshTokenDatabase extends BaseDatabase
     };
   }
   public async createToken(data: RefreshTokenData): Promise<void> {
-    this.performQuery(async () => {
+    await this.performQuery(async () => {
+      console.log("here");
       await this.getConnection()
         .insert({
-          ...data,
+          token: data.token,
+          device: data.device,
+          nickname: data.nickname,
+          user_id: data.userId,
           is_active: this.booleanToTinyInt(data.isActive),
         })
         .into(this.mainTableName);
+      console.log("added");
     });
   }
 
@@ -33,13 +38,23 @@ export class RefreshTokenDatabase extends BaseDatabase
     device?: string
   ): Promise<RefreshTokenData[]> {
     return this.performQuery(async () => {
-      const result = await this.getConnection()
-        .select("*")
-        .from(this.mainTableName)
-        .where({
-          nickname,
-          device,
-        });
+      let result = [];
+      if (device) {
+        result = await this.getConnection()
+          .select("*")
+          .from(this.mainTableName)
+          .where({
+            nickname,
+            device,
+          });
+      } else {
+        result = await this.getConnection()
+          .select("*")
+          .from(this.mainTableName)
+          .where({
+            nickname,
+          });
+      }
       return result.map(this.toEntity);
     });
   }

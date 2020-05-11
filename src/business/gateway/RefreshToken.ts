@@ -12,7 +12,7 @@ export interface RefreshTokenGateway {
  * simply data created due to our implementation.
  * */
 export interface RefreshTokenData {
-  id: string;
+  userId: string;
   token: string;
   isActive: boolean;
   device?: string;

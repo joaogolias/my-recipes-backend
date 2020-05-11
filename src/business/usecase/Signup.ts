@@ -1,26 +1,30 @@
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsString, IsNotEmpty, IsOptional } from "class-validator";
 import { AuthenticatorUC } from "./base/Authenticator";
 import { UserGateway } from "../gateway/User";
 import { RefreshTokenGateway } from "../gateway/RefreshToken";
 import { AuthenticationTokenGateway } from "../gateway/AuthenticationToken";
 import { User } from "../../entity/User";
 import { HashGateway } from "../gateway/Hash";
+import { IdGateway } from "../gateway/Id";
 
 export class SignupUC extends AuthenticatorUC<SignupUCInput, SingupUCOutput> {
   constructor(
     refreshTokenGateway: RefreshTokenGateway,
     authenticationTokenGateway: AuthenticationTokenGateway,
     private userGateway: UserGateway,
-    private hashGateway: HashGateway
+    private hashGateway: HashGateway,
+    private idGateway: IdGateway
   ) {
     super(refreshTokenGateway, authenticationTokenGateway);
   }
 
   public async execute(input: SignupUCInput): Promise<SingupUCOutput> {
+    await this.performValidation(input);
+
     const cryptedPassword = await this.hashGateway.hash(input.password!);
 
     const user = new User({
-      id: input.id!,
+      id: this.idGateway.generateId(),
       name: input.name!,
       nickname: input.nickname!,
       email: input.email!,
@@ -29,7 +33,8 @@ export class SignupUC extends AuthenticatorUC<SignupUCInput, SingupUCOutput> {
 
     await this.userGateway.createUser(user);
 
-    await this.authenticate(user.id, user.name, input.device);
+    console.log("user: ", user);
+    await this.authenticate(user.id, user.nickname, input.device);
 
     return {
       accessToken: this.accessToken,
@@ -39,10 +44,6 @@ export class SignupUC extends AuthenticatorUC<SignupUCInput, SingupUCOutput> {
 }
 
 export class SignupUCInput {
-  @IsString()
-  @IsNotEmpty()
-  public id?: string;
-
   @IsString()
   @IsNotEmpty()
   public name?: string;
@@ -60,6 +61,7 @@ export class SignupUCInput {
   public password?: string;
 
   @IsString()
+  @IsOptional()
   public device?: string;
 }
 

@@ -19,17 +19,23 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
     super();
   }
 
-  private static REFRESH_TOKEN_EXPIRES = Number(
-    process.env.REFRESH_TOKEN_EXPIRES
-  );
-  private static ACCESS_TOKEN_EXPIRES = Number(
-    process.env.ACCESS_TOKEN_EXPIRES
-  );
+  private static REFRESH_TOKEN_EXPIRES = () =>
+    Number(process.env.REFRESH_TOKEN_EXPIRES);
+  private static ACCESS_TOKEN_EXPIRES = () =>
+    Number(process.env.ACCESS_TOKEN_EXPIRES);
   protected async generateRefreshToken(
-    id: string,
+    userId: string,
     nickname: string,
     device?: string
   ): Promise<void> {
+    console.log(
+      "AuthenticatorUC.REFRESH_TOKEN_EXPIRES: ",
+      AuthenticatorUC.REFRESH_TOKEN_EXPIRES()
+    );
+    console.log(
+      "AuthenticatorUC.ACCESS_TOKEN_EXPIRES: ",
+      AuthenticatorUC.ACCESS_TOKEN_EXPIRES()
+    );
     const refreshToken = await this.refreshTokenGateway.getTokenByNicknameAndDevice(
       nickname,
       device
@@ -40,14 +46,14 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
         `${BusinessErrorMessage.MISSING_INPUT}. Device is missing`
       );
     }
-
+    console.log("refreshToken: ", refreshToken);
     if (!refreshToken[0]) {
       const newRefreshToken = this.authenticationTokenGateway.encode(
-        { id },
-        AuthenticatorUC.REFRESH_TOKEN_EXPIRES
+        { id: userId },
+        AuthenticatorUC.REFRESH_TOKEN_EXPIRES()
       );
       await this.refreshTokenGateway.createToken({
-        id,
+        userId: userId,
         token: newRefreshToken,
         isActive: true,
         device,
@@ -63,13 +69,13 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
     }
   }
 
-  protected generateAccessToken(id: string, nickname: string): void {
+  protected generateAccessToken(userId: string, nickname: string): void {
     this.accessToken = this.authenticationTokenGateway.encode(
       {
-        id,
+        id: userId,
         nickname,
       },
-      AuthenticatorUC.ACCESS_TOKEN_EXPIRES
+      AuthenticatorUC.ACCESS_TOKEN_EXPIRES()
     );
   }
   protected async authenticate(
@@ -77,6 +83,7 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
     nickname: string,
     device?: string
   ): Promise<void> {
+    console.log("aaaa");
     await this.generateRefreshToken(id, nickname, device);
     this.generateAccessToken(id, nickname);
   }
