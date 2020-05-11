@@ -8,12 +8,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-
-app.get("/", (_, res: Response) => {
-  res.status(200).send({
-    message: "helloworld",
-  });
-});
+g;
 
 app.post("/signup", singupEndpoint);
 app.post("/login", loginEndpoint);
