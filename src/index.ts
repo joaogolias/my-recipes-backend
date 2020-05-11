@@ -8,7 +8,6 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-g;
 
 app.post("/signup", singupEndpoint);
 app.post("/login", loginEndpoint);
