@@ -47,6 +47,7 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
         AuthenticatorUC.REFRESH_TOKEN_EXPIRES
       );
       await this.refreshTokenGateway.createToken({
+        id,
         token: newRefreshToken,
         isActive: true,
         device,

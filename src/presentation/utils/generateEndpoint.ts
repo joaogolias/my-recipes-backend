@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
+import { BaseDatabase } from "../../data/base/BaseDatabase";
 
 export const generateEndpoint = (
-  usecase: (req: Request) => Promise<any>
+  handler: (req: Request) => Promise<any>
 ) => async (req: Request, res: Response) => {
   try {
-    const result = await usecase(req);
+    const result = await handler(req);
     res.status(200).send(result);
   } catch (err) {
     res.status(err.statusCode || 400).send({
@@ -12,4 +13,5 @@ export const generateEndpoint = (
       devMessage: err.devMessage || "Missing dev message",
     });
   }
+  BaseDatabase.destroyConnection();
 };

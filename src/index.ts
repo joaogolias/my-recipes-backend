@@ -1,4 +1,5 @@
 import express, { Response } from "express";
+import { singupEndpoint } from "./presentation/endpoints/singupEndpoint";
 
 const app = express();
 
@@ -9,6 +10,8 @@ app.get("/", (_, res: Response) => {
     message: "helloworld",
   });
 });
+
+app.post("/singup", singupEndpoint);
 
 export default app;
 
