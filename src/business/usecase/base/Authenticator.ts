@@ -25,7 +25,7 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
   private static ACCESS_TOKEN_EXPIRES = Number(
     process.env.ACCESS_TOKEN_EXPIRES
   );
-  private async generateRefreshToken(
+  protected async generateRefreshToken(
     id: string,
     nickname: string,
     device?: string
@@ -62,7 +62,7 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
     }
   }
 
-  private generateAccessToken(id: string, nickname: string): void {
+  protected generateAccessToken(id: string, nickname: string): void {
     this.accessToken = this.authenticationTokenGateway.encode(
       {
         id,
@@ -74,7 +74,7 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
   protected async authenticate(
     id: string,
     nickname: string,
-    device: string
+    device?: string
   ): Promise<void> {
     await this.generateRefreshToken(id, nickname, device);
     this.generateAccessToken(id, nickname);
