@@ -32,14 +32,11 @@ export abstract class AuthenticatorUC<Input, Output> extends BaseUC<
       nickname,
       device
     );
-    console.log("a");
-    console.log(refreshToken);
     if (refreshToken.length > 1 && refreshToken[0].device && !device) {
       throw new InvalidInputError(
         `${BusinessErrorMessage.MISSING_INPUT}. Device is missing`
       );
     }
-    console.log("a");
     if (!refreshToken[0]) {
       const newRefreshToken = this.authenticationTokenGateway.encode(
         { id: userId },

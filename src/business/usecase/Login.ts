@@ -23,9 +23,7 @@ export class LoginUC extends AuthenticatorUC<LoginUCInput, LoginUCOutput> {
   public async execute(input: LoginUCInput): Promise<LoginUCOutput> {
     await this.performValidation(input);
 
-    console.log(input);
     const user = await this.userGateway.getUserByNickname(input.nickname!);
-    console.log(user);
     if (!user) {
       throw new NotFoundError("User not found");
     }

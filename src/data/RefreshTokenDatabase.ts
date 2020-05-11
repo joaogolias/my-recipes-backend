@@ -9,7 +9,6 @@ export class RefreshTokenDatabase extends BaseDatabase
   protected mainTableName: string = "refresh_token";
 
   private toEntity(dbModel?: any): RefreshTokenData | undefined {
-    console.log("dbModel: ", dbModel);
     return (
       dbModel && {
         userId: dbModel.user_id,
@@ -38,7 +37,6 @@ export class RefreshTokenDatabase extends BaseDatabase
     nickname: string,
     device?: string
   ): Promise<RefreshTokenData[]> {
-    console.log("nickname: ", nickname);
     return this.performQuery(async () => {
       let result = [];
       if (device) {
@@ -58,7 +56,6 @@ export class RefreshTokenDatabase extends BaseDatabase
           });
       }
       return result.map((item) => {
-        console.log(item);
         return this.toEntity(item);
       });
     });
