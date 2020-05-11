@@ -5,4 +5,5 @@ export interface AuthenticationTokenGateway {
 
 export interface AuthenticationUserData {
   id: string;
+  nickname?: string;
 }
