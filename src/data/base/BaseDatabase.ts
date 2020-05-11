@@ -50,7 +50,7 @@ export abstract class BaseDatabase {
 
   protected async performQuery(callback: () => Promise<any>) {
     try {
-      await callback();
+      return await callback();
     } catch (err) {
       this.handleError(err);
     }

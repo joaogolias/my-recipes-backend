@@ -15,9 +15,9 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "quotes": ["warn", "double"],
-    "no-console": "warn",
-    "no-unused-vars": "warn",
-    "no-duplicate-imports": "warn",
-    "class-methods-use-this": "warn"
+    "no-console": "off",
+    "no-unused-vars": "off",
+    "no-duplicate-imports": "off",
+    "class-methods-use-this": "off"
   }
 }
