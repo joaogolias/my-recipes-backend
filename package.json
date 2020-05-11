@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/uuid": "^7.0.3",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.12.2",
     "cors": "^2.8.5",
