@@ -2,8 +2,9 @@ import { IsString, IsNotEmpty, validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { v4 } from "uuid";
 import { UserController } from "../../controller/UserController";
+import { generateEndpoint } from "../base/generateEndpoint";
 
-export const save = async (request: Request, response: Response) => {
+export const save = generateEndpoint(async (request: Request) => {
   const input = new SaveUserInput();
 
   const id = v4();
@@ -16,7 +17,7 @@ export const save = async (request: Request, response: Response) => {
 
   const controller = new UserController();
   return controller.save(input);
-};
+});
 
 export class SaveUserInput {
   @IsString()
