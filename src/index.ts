@@ -1,23 +1,17 @@
-import express, { Request, Response } from "express";
-import { AddressInfo } from "net";
+import "reflect-metadata";
+import { createConnection } from "typeorm";
+import app from "../src/presentation/routes";
 
-const app = express();
-
-app.use(express.json());
-
-app.get("/", (_, res: Response) => {
-  res.status(200).send({
-    message: "helloworld",
-  });
-});
-
-export default app;
-
-const server = app.listen(process.env.PORT || 3000, () => {
-  if (server) {
-    const address = server.address() as AddressInfo;
-    console.log(`Server running on http://localhost:${address.port}`);
-  } else {
-    console.log("Failed to load server");
-  }
-});
+createConnection()
+  .then(async (connection) => {
+    const server = app.listen(3000 || process.env.port, () => {
+      if (server) {
+        console.log(
+          `Server running on http://localhost:${(server.address() as any).port}`
+        );
+      } else {
+        console.log("Failure on running server");
+      }
+    });
+  })
+  .catch((error) => console.log(error));
