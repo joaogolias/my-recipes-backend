@@ -24,11 +24,18 @@ createConnection()
             next
           );
           if (result instanceof Promise) {
-            result.then((result) =>
-              result !== null && result !== undefined
-                ? res.send(result)
-                : undefined
-            );
+            result
+              .then((result) =>
+                result !== null && result !== undefined
+                  ? res.send(result)
+                  : undefined
+              )
+              .catch((err) => {
+                console.log("Error: ", err);
+                res.status(400).send({
+                  message: err.message,
+                });
+              });
           } else if (result !== null && result !== undefined) {
             res.json(result);
           }
