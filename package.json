@@ -9,7 +9,7 @@
     "start:dev": "ts-node-dev ./src/index.ts",
     "start:index": "yarn build && node ./build/index.js",
     "build": "rm -rf build && tsc",
-    "deploy": "yarn build && git add --all && git commit -m 'deploying' && git push heroku master",
+    "deploy": "yarn build && git push heroku master",
     "migration:generate": "ts-node ./node_modules/.bin/typeorm migration:generate",
     "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run",
     "migration:revert": "ts-node ./node_modules/.bin/typeorm migration:revert"
