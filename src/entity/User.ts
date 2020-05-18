@@ -1,16 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, OneToMany, Unique } from "typeorm";
+import { Recipe } from "./Recipe";
 
 @Entity()
+@Unique(["name", "nickname", "email"])
 export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryColumn()
+  id!: string;
 
   @Column()
-  firstName!: string;
+  name!: string;
 
   @Column()
-  lastName!: string;
+  nickname!: string;
 
   @Column()
-  age!: number;
+  email!: string;
+
+  @OneToMany((type: any) => Recipe, (recipe: Recipe) => recipe.user)
+  recipes!: Recipe[];
 }
