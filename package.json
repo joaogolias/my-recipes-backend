@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/index.ts",
+    "start": "ts-node build/index.js",
     "start:dev": "ts-node-dev ./src/index.ts",
     "start:index": "yarn build && node ./build/index.js",
-    "build": "tsc",
+    "build": "rm -rf build && tsc",
     "deploy": "yarn build && git push heroku master",
     "migration:generate": "ts-node ./node_modules/.bin/typeorm migration:generate",
     "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run",
@@ -24,7 +24,6 @@
     "mysql": "^2.14.1",
     "reflect-metadata": "^0.1.10",
     "typeorm": "0.2.24",
-    "typescript": "^3.8.3",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
@@ -32,7 +31,7 @@
     "@types/express": "^4.17.6",
     "@types/node": "^8.0.29",
     "@types/uuid": "^7.0.3",
-    "ts-node": "3.3.0",
+    "ts-node": "^8.10.1",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "3.3.3333"
   }
