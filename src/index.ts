@@ -3,7 +3,7 @@ import { createConnection } from "typeorm";
 import express from "express";
 import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
-import { Routes } from "./routes";
+import { Routes } from "./presentation/routes";
 import cors from "cors";
 
 createConnection()
